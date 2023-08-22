@@ -1,0 +1,44 @@
+body {
+	background-color: #191c38;
+
+	margin: 0;
+	padding: 0;
+}
+ul {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+}
+
+.cell-list > .cell,
+.cell-even,
+.cell-odd {
+	width: calc(100% / 10);
+	aspect-ratio: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+.cell {
+	height: 100px;
+	width: 100px;
+	border: 1px solid white;
+	color: white;
+}
+
+.cell-even {
+	height: 100px;
+	width: 100px;
+	border: 1px solid white;
+	color: white;
+	background-color: aqua;
+}
+.cell-odd {
+	height: 100px;
+	width: 100px;
+	border: 1px solid white;
+	color: white;
+	background-color: red;
+}
