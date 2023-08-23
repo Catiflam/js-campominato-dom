@@ -1,29 +1,88 @@
-const cellTotal = 10 * 10;
+// VARIABILI GLOBALI
+
 const cellContainer = document.getElementById("cell-container");
 const generateButton = document.getElementById("generate-grid");
+const difficultSelect = document.getElementById("difficult");
+
+let cellsTotal;
+let bombs;
+let score;
+let cellsFreeTotal;
+let isGameOver;
 
 generateButton.addEventListener("click", function () {
-	generateGrid(cellTotal, cellContainer);
+	if (!difficultSelect.value) {
+		alert("Seleziona una difficoltà");
+		return;
+	}
+	cellsTotal = parseInt(difficultSelect.value);
+
+	isGameOver = false;
+
+	bombs = generateBombs(1, cellsTotal, 16);
+
+	score = 0;
+
+	cellsFreeTotal = cellsTotal - bombs.length;
+
+	generateGrid();
 });
+// GENERA GRIGLIA
+function generateGrid() {
+	cellContainer.innerHTML = "";
 
-function createGrid(container, i) {
-	const cell = document.createElement("li");
-	cell.setAttribute("data-index", i);
-	cell.classList.add("cell");
-	container.append(cell);
-	cell.addEventListener("click", function () {
-		const index = this.getAttribute("data-index");
-		this.innerText = index;
-		this.classList.add("cell-even");
-		console.log(this);
-	});
-}
+	let cellsTotal = parseInt(difficultSelect.value);
 
-function generateGrid(celsNumber, container) {
-	container.innerHTML = "";
-	for (let i = 1; i <= celsNumber; i++) {
-		createGrid(container, i);
+	for (let i = 1; i <= cellsTotal; i++) {
+		const generatedCell = generateCell(i, cellsTotal);
+		cellContainer.append(generatedCell);
 	}
 }
 
-let randomPc = MathFloor(MathRandom() * 16);
+// GENERA CELLA
+function generateCell(cellText, cellsTotal) {
+	const cell = document.createElement("li");
+	cell.innerHTML = cellText;
+	cell.classList.add("cell");
+	cell.classList.add("cell-" + cellsTotal);
+	// CLICK CELLA
+
+	cell.addEventListener("click", function () {
+		if (isGameOver || this.classList.contains("cell-clicked")) return;
+
+		const cellNumber = parseInt(this.innerText);
+
+		if (bombs.includes(cellNumber)) {
+			this.classList.add("cell-bomb");
+
+			endgame("Fine partita. Hai totalizzato " + score + " punti");
+		} else {
+			this.classList.add("cell-clicked");
+			score++;
+
+			if (score >= cellsFreeTotal) {
+				endgame("Fine partita. Hai totalizzato " + score + " punti. Congratulazioni! E' un punteggio perfetto");
+			}
+		}
+	});
+
+	return cell;
+}
+
+const generateRandomNumber = (min, max) => Math.floor(Math.random() * max - min + 1) + min;
+
+const generateBombs = (min, max, qty) => {
+	const uniqueArray = [];
+
+	while (uniqueArray.length < qty) {
+		const uniqueNumber = generateRandomNumber(min, max);
+		if (!uniqueArray.includes(uniqueNumber)) uniqueArray.push(uniqueNumber);
+	}
+
+	return uniqueArray;
+};
+
+const endgame = (msg) => {
+	// * stampo il punteggio
+	alert(msg);
+};

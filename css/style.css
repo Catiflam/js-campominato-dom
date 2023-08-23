@@ -1,3 +1,10 @@
+:root {
+	--bg-body: #011627;
+	--bg-cell: #011627;
+	--bg-cell-bomb: #ff0000;
+	--bg-cell-clicked: #7fffd4;
+}
+
 body {
 	background-color: #191c38;
 
@@ -10,10 +17,14 @@ ul {
 	flex-wrap: wrap;
 	padding: 0;
 }
+.cell-list:has(.cell) {
+	border: 2px solid white;
+}
+.cell-list {
+	border: 1px solid white;
+}
 
-.cell-list > .cell,
-.cell-even,
-.cell-odd {
+.cell-list > .cell {
 	width: calc(100% / 10);
 	aspect-ratio: 1;
 	display: flex;
@@ -28,17 +39,23 @@ ul {
 	color: white;
 }
 
-.cell-even {
-	height: 100px;
-	width: 100px;
-	border: 1px solid white;
-	color: white;
-	background-color: aqua;
+.cell-list > .cell.cell-100 {
+	width: calc(100% / 10);
 }
-.cell-odd {
-	height: 100px;
-	width: 100px;
-	border: 1px solid white;
-	color: white;
-	background-color: red;
+
+.cell-list > .cell.cell-81 {
+	width: calc(100% / 9);
+}
+
+.cell-list > .cell.cell-49 {
+	width: calc(100% / 7);
+}
+
+.cell-list > .cell.cell-clicked {
+	background-color: var(--bg-cell-clicked);
+	color: #333;
+}
+
+.cell-list > .cell.cell-bomb {
+	background-color: var(--bg-cell-bomb);
 }
